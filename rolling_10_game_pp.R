@@ -8,14 +8,14 @@ library(ggplot2)
 library(readr)
 
 # code below is to scrape site
-# change season_id in url variable as necessary
+# change season_id in url variable as necessary to get regular season and playoff games
 # url is pulled from network tab using browser
 url <- "https://lscluster.hockeytech.com/feed/?feed=modulekit&view=schedule&key=2976319eb44abe94&fmt=json&client_code=ohl&lang=en&season_id=85&team_id=&league_code=&fmt=json"
 
 # get json
 pull <- jsonlite::fromJSON(url, simplifyDataFrame = TRUE)
 
-# all games dataframe
+# all regular season games dataframe
 allRegGames_df <- tibble(
   game_id = as.numeric(pull[["SiteKit"]][["Schedule"]][["game_id"]]),
   season = as.numeric(pull[["SiteKit"]][["Parameters"]][["season_id"]]),
@@ -31,7 +31,7 @@ allRegGames_df <- tibble(
   started = as.numeric(pull[["SiteKit"]][["Schedule"]][["started"]])
 )
 
-# all games dataframe
+# all playoff games dataframe
 allPlayoffGames_df <- tibble(
   game_id = as.numeric(pull[["SiteKit"]][["Schedule"]][["game_id"]]),
   season = as.numeric(pull[["SiteKit"]][["Parameters"]][["season_id"]]),
