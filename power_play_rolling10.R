@@ -5,7 +5,7 @@ library(purrr)
 library(slider)
 
 # -------------------------------
-# Choose team
+# Choose team.  Use the team short code to run script for that particular team.
 # -------------------------------
 selected_team <- "NB"
 
