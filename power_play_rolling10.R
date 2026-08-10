@@ -34,10 +34,33 @@ selected_team_code <- teams %>%
   filter(team_short == selected_team) %>%
   pull(team_code)
 
+# Get Games Dataframe -----------------------------------------------------
+#get dataframe of all games to iterate through for further analysis
+games_url <- "https://lscluster.hockeytech.com/feed/?feed=modulekit&view=schedule&key=2976319eb44abe94&fmt=json&client_code=ohl&lang=en&season_id=83&team_id=&league_code=&fmt=json"
+
+# get json
+pull <- jsonlite::fromJSON(games_url, simplifyDataFrame = TRUE)
+
+# all games dataframe
+allGames_df <- tibble(
+  game_id = as.numeric(pull[["SiteKit"]][["Schedule"]][["game_id"]]),
+  season = as.numeric(pull[["SiteKit"]][["Parameters"]][["season_id"]]),
+  date_played = as.Date(pull[["SiteKit"]][["Schedule"]][["date_played"]]),
+  home_team_id = as.numeric(pull[["SiteKit"]][["Schedule"]][["home_team"]]),
+  visiting_team_id = as.numeric(pull[["SiteKit"]][["Schedule"]][["visiting_team"]]),
+  home_score = as.numeric(pull[["SiteKit"]][["Schedule"]][["home_goal_count"]]),
+  home = pull[["SiteKit"]][["Schedule"]][["home_team_code"]],
+  away_score = as.numeric(pull[["SiteKit"]][["Schedule"]][["visiting_goal_count"]]),
+  away = pull[["SiteKit"]][["Schedule"]][["visiting_team_code"]],
+  game_status = pull[["SiteKit"]][["Schedule"]][["game_status"]],
+  attendance = as.numeric(pull[["SiteKit"]][["Schedule"]][["attendance"]]),
+  started = as.numeric(pull[["SiteKit"]][["Schedule"]][["started"]])
+)
+
 # -------------------------------
 # Get selected team's games
 # -------------------------------
-games <- allGames %>%
+games <- allGames_df %>%
   filter(started == 1) %>%
   filter(home == selected_team | away == selected_team) %>%
   select(game_id, date_played)
