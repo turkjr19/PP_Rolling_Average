@@ -34,8 +34,9 @@ selected_team_code <- teams %>%
   filter(team_short == selected_team) %>%
   pull(team_code)
 
-# Get Games Dataframe -----------------------------------------------------
+#Get Games Dataframe -----------------------------------------------------
 #get dataframe of all games to iterate through for further analysis
+#change season_id number
 games_url <- "https://lscluster.hockeytech.com/feed/?feed=modulekit&view=schedule&key=2976319eb44abe94&fmt=json&client_code=ohl&lang=en&season_id=83&team_id=&league_code=&fmt=json"
 
 # get json
